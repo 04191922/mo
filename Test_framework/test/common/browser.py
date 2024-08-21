@@ -1,25 +1,23 @@
 import time
 import os
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.ie.service import Service as IEService
 from utils.config import DRIVER_PATH, REPORT_PATH
 
-# 根据传入的参数选择浏览器的driver去打开对应的浏览器
-
-# 可根据需要自行扩展
 CHROMEDRIVER_PATH = DRIVER_PATH + '\chromedriver.exe'
 IEDRIVER_PATH = DRIVER_PATH + '\IEDriverServer.exe'
-PHANTOMJSDRIVER_PATH = DRIVER_PATH + '\phantomjs.exe'
-
-TYPES = {'firefox': webdriver.Firefox, 'chrome': webdriver.Chrome, 'ie': webdriver.Ie, 'phantomjs': webdriver.PhantomJS}
-EXECUTABLE_PATH = {'firefox': 'wires', 'chrome': CHROMEDRIVER_PATH, 'ie': IEDRIVER_PATH, 'phantomjs': PHANTOMJSDRIVER_PATH}
-
+TYPES = {'firefox': webdriver.Firefox, 'chrome': webdriver.Chrome, 'ie': webdriver.Ie}
+EXECUTABLE_PATH = {'firefox': None, 'chrome': CHROMEDRIVER_PATH, 'ie': IEDRIVER_PATH}
 
 class UnSupportBrowserTypeError(Exception):
     pass
 
-
 class Browser(object):
-    def __init__(self, browser_type='firefox'):
+    def __init__(self, browser_type='chrome'):
         self._type = browser_type.lower()
         if self._type in TYPES:
             self.browser = TYPES[self._type]
@@ -28,7 +26,23 @@ class Browser(object):
         self.driver = None
 
     def get(self, url, maximize_window=True, implicitly_wait=30):
-        self.driver = self.browser(executable_path=EXECUTABLE_PATH[self._type])
+        if self._type == 'chrome':
+            options = ChromeOptions()
+            options.add_argument("--headless")
+            options.add_argument("--disable-gpu")
+            service = Service(executable_path=EXECUTABLE_PATH[self._type])
+            self.driver = self.browser(service=service, options=options)
+        elif self._type == 'firefox':
+            options = FirefoxOptions()
+            options.add_argument("--headless")
+            service = FirefoxService(executable_path=EXECUTABLE_PATH[self._type])
+            self.driver = self.browser(service=service, options = options)
+        elif self._type == 'ie':
+            service = IEService(executable_path=EXECUTABLE_PATH[self._type])
+            self.driver = self.browser(service=service)
+        else:
+            raise UnSupportBrowserTypeError('不支持的浏览器类型！')
+
         self.driver.get(url)
         if maximize_window:
             self.driver.maximize_window()
@@ -37,7 +51,9 @@ class Browser(object):
 
     def save_screen_shot(self, name='screen_shot'):
         day = time.strftime('%Y%m%d', time.localtime(time.time()))
-        screenshot_path = REPORT_PATH + '\screenshot_%s' % day
+        #screenshot_path = REPORT_PATH + '\screenshot_%s' % day
+        #save_screen_shot方法中使用os.path.join来拼接路径，这可以使代码更加跨平台兼容
+        screenshot_path = os.path.join(REPORT_PATH, 'screenshot_%s' % day)
         if not os.path.exists(screenshot_path):
             os.makedirs(screenshot_path)
 

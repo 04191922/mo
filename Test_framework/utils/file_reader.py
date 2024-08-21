@@ -3,6 +3,7 @@
 import yaml
 import os
 from xlrd import open_workbook
+from openpyxl import load_workbook
 
 # 读取配置文件yaml文件成配置内容
 class YamlReader:

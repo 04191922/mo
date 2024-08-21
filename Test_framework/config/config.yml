@@ -1,4 +1,4 @@
-local_url: http://xxxxxxxx/app    # 测试网址
+local_url: https://www.baidu.com    # 测试网址
 api_url: http://xxxxxx/
 images:
  - images/0.jpg
@@ -17,6 +17,6 @@ log:
     file_level: DEBUG       # 文件输出等级
     pattern: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'  # 打印输出格式
 
-
+URL: https://www.baidu.com
 
 
