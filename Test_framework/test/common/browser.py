@@ -28,13 +28,13 @@ class Browser(object):
     def get(self, url, maximize_window=True, implicitly_wait=30):
         if self._type == 'chrome':
             options = ChromeOptions()
-            options.add_argument("--headless")
+            #options.add_argument("--headless")
             options.add_argument("--disable-gpu")
             service = Service(executable_path=EXECUTABLE_PATH[self._type])
             self.driver = self.browser(service=service, options=options)
         elif self._type == 'firefox':
             options = FirefoxOptions()
-            options.add_argument("--headless")
+           # options.add_argument("--headless")
             service = FirefoxService(executable_path=EXECUTABLE_PATH[self._type])
             self.driver = self.browser(service=service, options = options)
         elif self._type == 'ie':
