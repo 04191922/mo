@@ -25,27 +25,23 @@ class TestLogin(unittest.TestCase):
     def setUpClass(cls):
         cls.driver = Browser(browser_type='chrome').get(cls.URL, maximize_window=False)
 
+
     @classmethod
     def tearDownClass(cls):
         cls.driver.quit()
 
     def test_login(self):
+
         # 定位登录按钮，打开登录窗
         self.page = DigitalHomeLogin(self.driver)  # 使用已经打开的浏览器实例
         loginbotton =self.page.search()
-        time.sleep(2)
-        print(loginbotton)
+        time.sleep(4)
         #定位手机号输入框
-
+        # 输入手机号
         phone = self.page.inputphonenum('13168310924')
-        print(phone)
         time.sleep(1)
-        #输入手机号
-        #调第三方接口发送请求
-        #调用验证码接口获取验证码
-        #定位验证码输入框，获取正确验证码填入验证码输入框
-        #定位登录/注册按钮点击确定
-        #设置断言
+        vrcode = self.page.inputver('123456')
+        self.page.login()
 
 
 
@@ -56,5 +52,4 @@ if __name__ == '__main__':
     with open(report, 'wb') as f:
         runner = HTMLTestRunner(f, verbosity=2, title='墨镜', description='修改html报告')
         unittest.main(testRunner=runner)
-    # 计算运行时间差
 
