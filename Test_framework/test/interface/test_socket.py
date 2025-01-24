@@ -2,7 +2,7 @@ from utils.client import TCPClient
 import unittest
 from utils.config import Config
 from utils.extractor import JMESPathExtractor
-
+import os
 je = JMESPathExtractor()
 
 
@@ -15,7 +15,15 @@ class TestAdd(unittest.TestCase):
         self.client = TCPClient(ip, port)
 
     def tearDown(self):
+        # for method_name, error in self._outcome.errors:
+        #     if error:
+        #         case_name = self._testMethodName
+        #         file_image_path = os.path.join(os.getcwd() + "\\report\\" + case_name + ".png")
+        #         self.driver.save_screenshot(file_image_path)
+
         self.client.close()
+
+
 
     def test_add(self):
         data = {

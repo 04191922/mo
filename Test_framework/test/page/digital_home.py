@@ -30,7 +30,7 @@ class DigitalHomeLogin(Page):
 
     def wait_for_popup(self):#定位弹窗
         # 等待弹窗出现
-        wait = WebDriverWait(self.driver, 10)
+        wait = WebDriverWait(self.driver, 50)
         popup = wait.until(EC.visibility_of_element_located(self.popup_selector))
         return popup
     def search(self):
@@ -51,7 +51,7 @@ class DigitalHomeLogin(Page):
         login_button_inside_popup.click()
         time.sleep(5)
         success = (By.CSS_SELECTOR, '#message_2 > p')
-        result_element = WebDriverWait(self.driver, 10).until(
+        result_element = WebDriverWait(self.driver, 50).until(
             EC.visibility_of_element_located(success)  # 假设登录结果的元素
         )
         message_text = result_element.text

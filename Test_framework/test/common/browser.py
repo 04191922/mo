@@ -31,7 +31,8 @@ class Browser(object):
             #options.add_argument("--headless")
             options.add_argument("--disable-gpu")
             service = Service(executable_path=EXECUTABLE_PATH[self._type])
-            self.driver = self.browser(service=service, options=options)
+            self.driver = webdriver.Chrome()
+            #self.browser(service=service, options=options)
         elif self._type == 'firefox':
             options = FirefoxOptions()
            # options.add_argument("--headless")

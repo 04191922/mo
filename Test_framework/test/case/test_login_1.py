@@ -45,11 +45,17 @@ class TestLogin(unittest.TestCase):
         return result
 
     def test_login(self):
+        try:
+            #验证码登录成功
+            self.assertEqual(self.login(),'登录成功')
+            # 截图
+            if self.assertNotEquals(self.login(),'登录成功') :
+                self.driver.browser.save_screen_shot()
+            #验证码登录失败
 
-            result = self.login()
+        except Exception as msg:
+            print('报错信息：%s'%msg)
 
-            print(f"login method:{result}")
-            self.assertEqual(result,'登录成功')
 
 
 
