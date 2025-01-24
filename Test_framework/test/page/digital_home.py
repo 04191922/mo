@@ -13,14 +13,20 @@ class DigitalHomeLogin(Page):
     #手机号输入框
     phone_input =(By.CSS_SELECTOR,'#phone > div > div > div > span > input')
     #获取验证码
-    get_vercode_btn = (By.CLASS_NAME,'code-btn')
+    get_vercode_btn = (By.CSS_SELECTOR,'#code > div > div > div > div')
     #验证码输入框
-    verification_code = (By.CSS_SELECTOR,'#code > div.arco-form-item-content-wrapper > div > div > span > input')
+    verification_code = (By.CSS_SELECTOR,'#code > div > div > div > span > input')
     #隐私勾选
     agreement_select = (By.CLASS_NAME,'agreement-select')
     #弹窗定位
     popup_selector = (By.CLASS_NAME, 'login-box-right')
     # el-id-996-7 > div > div > div.phone-login > div.login-btn
+    # #’登录成功‘
+    # success = (By.CSS_SELECTOR,'#message_2 > p')
+
+    def __init__(self, page=None, browser_type='chrome'):
+        super().__init__(page, browser_type)
+        self.page = None
 
     def wait_for_popup(self):#定位弹窗
         # 等待弹窗出现
@@ -37,13 +43,22 @@ class DigitalHomeLogin(Page):
         time.sleep(1)
         self.find_element(*self.phone_input).send_keys(kw)#输入手机号
 
-    def login(self):
+    def login1(self):
         popup = self.wait_for_popup()
         login_button_inside_popup = popup.find_element(*self.login_btn)
         self.find_element(*self.agreement_select).click()
         time.sleep(1)
         login_button_inside_popup.click()
         time.sleep(5)
+        success = (By.CSS_SELECTOR, '#message_2 > p')
+        result_element = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(success)  # 假设登录结果的元素
+        )
+        message_text = result_element.text
+        print(f"login result:{message_text}")
+        return message_text
+        # success = self.find_element(*self.success)
+        # return success
         # 定位所有登录按钮并找到显示的那个
         #login_button_inside_popup = next(btn for btn in login_buttons if btn.is_displayed())
         # 点击协议选择框
@@ -53,7 +68,13 @@ class DigitalHomeLogin(Page):
         # self.find_element(*self.login_btn1).click()
 
     def inputver(self,kw):
-        self.find_element(*self.get_vercode_btn).click() #点输入验证码按钮
+        vercode = self.find_element(*self.get_vercode_btn) #点获取验证码按钮
+        time.sleep(1)
+        vercode.click()
+        vercode = self.find_element(*self.get_vercode_btn)  # 点获取验证码按钮
+        time.sleep(1)
+        vercode.click()
+        result=self.find_element(*self.verification_code).click()
         time.sleep(0.1)
         self.find_element(*self.verification_code).send_keys(kw)#输入验证码
 

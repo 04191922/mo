@@ -1,4 +1,7 @@
-local_url: https://www.glocentaiio.com/webTest/#   # 测试网址
+local_url:  http://192.168.1.95:8080/
+test_url: https://www.glocentaiio.com/webTest/#   # 测试网址
+
+
 api_url: http://xxxxxx/
 images:
  - images/0.jpg
