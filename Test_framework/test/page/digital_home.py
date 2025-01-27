@@ -85,5 +85,13 @@ class DigitalHomeLogin(Page):
         self.find_element(*self.verification_code).send_keys(kw)#输入验证码
 
     def pwd_login(self,username,pwd):
+
+        #密码登录
+        self.wait_for_popup().click()
         self.find_element(*self.pwd_login_btn).click()
 
+        time.sleep(5)
+        success = (By.CSS_SELECTOR, '#message_2 > p')
+        result_element = WebDriverWait(self.driver, 50).until(
+            EC.visibility_of_element_located(success)  # 假设登录结果的元素
+        )
