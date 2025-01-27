@@ -44,6 +44,12 @@ class TestLogin(unittest.TestCase):
         print(f"login result:{result}")
         return result
 
+    def pwd_login(self):
+        self.page = DigitalHomeLogin(self.driver)
+
+
+
+
     def test_login(self):
         try:
             #验证码登录成功
@@ -51,7 +57,8 @@ class TestLogin(unittest.TestCase):
             # 截图
             if self.assertNotEquals(self.login(),'登录成功') :
                 self.driver.browser.save_screen_shot()
-            #验证码登录失败
+            #密码登录
+            self.assertEqual(self.login(), '登录成功')
 
         except Exception as msg:
             print('报错信息：%s'%msg)
@@ -65,4 +72,3 @@ if __name__ == '__main__':
     with open(report, 'wb') as f:
         runner = HTMLTestRunner(f, verbosity=2, title='墨镜', description='修改html报告')
         unittest.main(testRunner=runner)
-

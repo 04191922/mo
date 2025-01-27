@@ -12,6 +12,8 @@ class DigitalHomeLogin(Page):
     login_btn = (By.CLASS_NAME, 'login-btn')
     #手机号输入框
     phone_input =(By.CSS_SELECTOR,'#phone > div > div > div > span > input')
+    #密码输入框
+    pwd_input = (By.CSS_SELECTOR,'#password > div > div > span > input')
     #获取验证码
     get_vercode_btn = (By.CSS_SELECTOR,'#code > div > div > div > div')
     #验证码输入框
@@ -20,6 +22,10 @@ class DigitalHomeLogin(Page):
     agreement_select = (By.CLASS_NAME,'agreement-select')
     #弹窗定位
     popup_selector = (By.CLASS_NAME, 'login-box-right')
+
+    #密码登录tab
+    pwd_login_btn =(By.CLASS_NAME,'title-item')
+
     # el-id-996-7 > div > div > div.phone-login > div.login-btn
     # #’登录成功‘
     # success = (By.CSS_SELECTOR,'#message_2 > p')
@@ -78,4 +84,6 @@ class DigitalHomeLogin(Page):
         time.sleep(0.1)
         self.find_element(*self.verification_code).send_keys(kw)#输入验证码
 
+    def pwd_login(self,username,pwd):
+        self.find_element(*self.pwd_login_btn).click()
 
